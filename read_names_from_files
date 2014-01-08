@@ -1,0 +1,3 @@
+PROCEDURE read_names_from_files();VAR i : integer;    file_content : STRING;BEGIN  writeln('Folgende Namen wurden gespeichert:');    FOR i := 0 TO 3 DO      BEGIN        file_content := read_content_from_file(names[i]);        writeln(file_content);      END;END;
+
+FUNCTION read_content_from_file(file_name : STRING) : STRING;VAR text_file : TEXT;    file_content : STRING;BEGIN     assign(text_file, path + file_name + '.txt');     reset(text_file);     readln(text_file, file_content);     close(text_file);     read_content_from_file := file_content;END;

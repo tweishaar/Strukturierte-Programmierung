@@ -1,0 +1,19 @@
+PROCEDURE read_names_into_files();
+VAR i : integer;
+BEGIN
+    FOR i := 0 TO 3 DO
+      BEGIN
+        names[i] := read_name_to_file();
+      END;
+END;
+
+FUNCTION read_name_to_file : STRING;
+VAR name : STRING;
+BEGIN
+  write('Geben Sie einen Namen ein("Vorname Nachname"): ');
+  readln(name);
+  write_name_into_file(name);
+  read_name_to_file := name;
+END;
+
+PROCEDURE write_name_into_file(name_to_write : STRING);VAR text_file : TEXT;BEGIN  assign(text_file, path + name_to_write + '.txt');  rewrite(text_file);  writeln(text_file, name_to_write, ', ', get_random_boolean());  close(text_file);END; 
