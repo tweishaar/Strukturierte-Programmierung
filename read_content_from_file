@@ -1,0 +1,10 @@
+FUNCTION read_content_from_file(file_name : STRING) : STRING;
+VAR text_file : TEXT;
+    file_content : STRING;
+BEGIN
+     assign(text_file, path + file_name + '.txt');
+     reset(text_file);
+     readln(text_file, file_content);
+     close(text_file);
+     read_content_from_file := file_content;
+END;

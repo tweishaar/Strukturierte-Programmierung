@@ -1,0 +1,8 @@
+PROCEDURE write_name_into_file(name_to_write : STRING);
+VAR text_file : TEXT;
+BEGIN
+  assign(text_file, path + name_to_write + '.txt');
+  rewrite(text_file);
+  writeln(text_file, name_to_write, ', ', get_random_boolean());
+  close(text_file);
+END;
