@@ -1,0 +1,17 @@
+FUNCTION get_random_boolean : BOOLEAN;
+var random_value : INTEGER;
+    boolean_integer : INTEGER;
+BEGIN
+  // Um bei jeden Funktionsaufruf die Zufallszahlen auf unterschiedlicher Basis zu erstellen
+  Randomize;
+  // Erstellen einer Zufallszahl zwischen 0 und 1
+  random_value := random(2);
+  IF random_value = 0 THEN
+     BEGIN
+       get_random_boolean := false;
+     END
+  ELSE IF random_value = 1 THEN
+     BEGIN
+       get_random_boolean := true;
+     END;
+END;
