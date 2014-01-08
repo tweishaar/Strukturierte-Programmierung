@@ -1,0 +1,176 @@
+program klausur_gruppe1_teil1;
+// Autor: Tino Weishaar
+// Datum: 07.01.2014
+
+VAR path : STRING;
+    names : ARRAY[0..3] OF STRING;
+
+
+FUNCTION get_random_boolean : BOOLEAN;
+var random_value : INTEGER;
+    boolean_integer : INTEGER;
+BEGIN
+  // Um bei jeden Funktionsaufruf die Zufallszahlen auf unterschiedlicher Basis zu erstellen
+  Randomize;
+  // Erstellen einer Zufallszahl zwischen 0 und 1
+  random_value := random(2);
+  IF random_value = 0 THEN
+     BEGIN
+       get_random_boolean := false;
+     END
+  ELSE IF random_value = 1 THEN
+     BEGIN
+       get_random_boolean := true;
+     END;
+END;
+
+PROCEDURE write_name_into_file(name_to_write : STRING);
+VAR text_file : TEXT;
+BEGIN
+  assign(text_file, path + name_to_write + '.txt');
+  rewrite(text_file);
+  writeln(text_file, name_to_write, ', ', get_random_boolean());
+  close(text_file);
+END;
+
+FUNCTION read_name_to_file : STRING;
+VAR name : STRING;
+BEGIN
+  write('Geben Sie einen Namen ein("Vorname Nachname"): ');
+  readln(name);
+  write_name_into_file(name);
+  read_name_to_file := name;
+END;
+
+PROCEDURE read_names_into_files();
+VAR i : integer;
+BEGIN
+    FOR i := 0 TO 3 DO
+      BEGIN
+        names[i] := read_name_to_file();
+      END;
+END;
+
+FUNCTION read_content_from_file(file_name : STRING) : STRING;
+VAR text_file : TEXT;
+    file_content : STRING;
+BEGIN
+     assign(text_file, path + file_name + '.txt');
+     reset(text_file);
+     readln(text_file, file_content);
+     close(text_file);
+     read_content_from_file := file_content;
+END;
+
+PROCEDURE read_names_from_files();
+VAR i : integer;
+    file_content : STRING;
+BEGIN
+  writeln('Folgende Namen wurden gespeichert:');
+    FOR i := 0 TO 3 DO
+      BEGIN
+        file_content := read_content_from_file(names[i]);
+        writeln(file_content);
+      END;
+END;
+
+FUNCTION count_file_content_length(file_name : STRING) : INTEGER;
+VAR file_content : STRING;
+BEGIN
+     file_content := read_content_from_file(file_name);
+     count_file_content_length := length(file_content);
+END;
+
+PROCEDURE draw_rectangle_from_number_array(number_array : ARRAY OF STRING);
+var i, horizontal_space_count, vertical_space_count : INTEGER;
+    horizontal_space_string : STRING;
+BEGIN
+  horizontal_space_count := 20;
+  horizontal_space_string := '';
+  vertical_space_count := 3;
+
+  horizontal_space_count := horizontal_space_count -
+                            length(number_array[0]) -
+                            length(number_array[1]);
+
+  FOR i := 0 TO horizontal_space_count DO
+    BEGIN
+      horizontal_space_string := concat(horizontal_space_string, ' ');
+    END;
+
+  writeln(number_array[0], horizontal_space_string, number_array[1]);
+
+  FOR i := 0 TO vertical_space_count DO
+    BEGIN
+      writeln();
+    END;
+
+  horizontal_space_count := 20;
+  horizontal_space_string := '';
+
+  horizontal_space_count := horizontal_space_count -
+                            length(number_array[2]) -
+                            length(number_array[3]);
+
+  FOR i := 0 TO horizontal_space_count DO
+    BEGIN
+      horizontal_space_string := concat(horizontal_space_string, ' ');
+    END;
+
+  writeln(number_array[2], horizontal_space_string, number_array[3]);
+
+END;
+
+PROCEDURE draw_rectangle();
+VAR i : INTEGER;
+    file_content, temp : STRING;
+    content_length_array : ARRAY[0..3] OF INTEGER;
+    content_length_string_array : ARRAY[0..3] OF STRING;
+
+BEGIN
+  FOR i := 0 TO 3 DO
+    BEGIN
+      content_length_array[i] := count_file_content_length(names[i]);
+      str(content_length_array[i], content_length_string_array[i]);
+    END;
+
+  draw_rectangle_from_number_array(content_length_string_array);
+END;
+
+BEGIN
+  path := 'C:\Users\Kenny\Desktop\';
+  writeln(length(path));
+  read_names_into_files();
+  writeln(length(names));
+  read_names_from_files();
+  draw_rectangle();
+  readln();
+END.
+
+
+{
+PROCEDURE write_out(value : STRING);
+BEGIN
+  writeln(value);
+END;
+
+PROCEDURE write_name_and_surname();
+VAR name, surname : STRING;
+BEGIN
+  name := 'Tino';
+  surname := 'Weishaar'
+  write_out(name);
+  write_out(surname);
+END;
+
+PROCEDURE generate_10_random_numbers(number : INTEGER);
+VAR i :INTEGER;
+    result : INTEGER;
+BEGIN
+  FOR i := 0 TO 10 DO
+    BEGIN
+    result := random(number);
+    writeln(number, ': ', result);
+    END;
+END;
+}
