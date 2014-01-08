@@ -1,0 +1,2 @@
+FUNCTION functionname() : rückgabetyp ;var lokaleVariable : INTEGER;BEGIN  
+  functionname := rückgabewert;END;
