@@ -1,0 +1,10 @@
+PROCEDURE generate_10_random_numbers(number : INTEGER);
+VAR i :INTEGER;
+    result : INTEGER;
+BEGIN
+  FOR i := 0 TO 10 DO
+    BEGIN
+    result := random(number);
+    writeln(number, ': ', result);
+    END;
+END;
